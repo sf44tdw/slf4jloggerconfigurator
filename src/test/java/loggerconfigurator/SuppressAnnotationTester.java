@@ -25,58 +25,65 @@ import org.slf4j.helpers.NOPLogger;
  */
 public abstract class SuppressAnnotationTester {
 
-    /**
-     * 出力抑止状態を示す定数。
-     */
-    public static enum SUPPRESS_STATUS {
-        /**
-         * ログ出力が抑止されている。
-         */
-        SUPPRESS,
-        /**
-         * ログ出力が抑止されていない。
-         */
-        NOT_SUPPRESS
-    };
+	/**
+	 * 出力抑止状態を示す定数。
+	 */
+	public static enum SUPPRESS_STATUS {
+		/**
+		 * ログ出力が抑止されている。
+		 */
+		SUPPRESS,
+		/**
+		 * ログ出力が抑止されていない。
+		 */
+		NOT_SUPPRESS
+	};
 
-    private final Logger _LOG;
+	private final Logger _LOG;
 
-    private final SUPPRESS_STATUS expectStatus;
+	private final SUPPRESS_STATUS expectStatus;
 
-    /**
-     * @param _LOG サブクラスで取得したロガー。サブクラスで取得しないと抑止アノテーションが効かない。
-     * @param expectStatus 期待される出力抑止状態。
-     */
-    protected SuppressAnnotationTester(Logger _LOG, SUPPRESS_STATUS expectStatus) {
-        this._LOG = _LOG;
-        this.expectStatus = expectStatus;
-    }
+	/**
+	 * @param _LOG サブクラスで取得したロガー。サブクラスで取得しないと抑止アノテーションが効かない。
+	 * @param expectStatus 期待される出力抑止状態。
+	 */
+	protected SuppressAnnotationTester(Logger _LOG, SUPPRESS_STATUS expectStatus) {
+		this._LOG = _LOG;
+		this.expectStatus = expectStatus;
+		if (this._LOG == null) {
+			throw new IllegalArgumentException("_LOGがnull。");
+		}
+		if (this._LOG == null) {
+			throw new IllegalArgumentException("expectStatusがnull。");
+		}
 
-    /**
-     * ログ出力が抑止されているか。
-     * @return 出力抑止状態を示す定数。
-     */
-    public final SUPPRESS_STATUS isSuppress() {
-        final SUPPRESS_STATUS loggerStat;
-        if (this._LOG instanceof NOPLogger) {
-            loggerStat = SUPPRESS_STATUS.SUPPRESS;
-        } else {
-            loggerStat = SUPPRESS_STATUS.NOT_SUPPRESS;
-        }
-        return loggerStat;
-    }
+	}
 
-    public SUPPRESS_STATUS getExpectStatus() {
-        return expectStatus;
-    }
+	/**
+	 * ログ出力が抑止されているか。
+	 * @return 出力抑止状態を示す定数。
+	 */
+	public final SUPPRESS_STATUS isSuppress() {
+		final SUPPRESS_STATUS loggerStat;
+		if (this._LOG instanceof NOPLogger) {
+			loggerStat = SUPPRESS_STATUS.SUPPRESS;
+		} else {
+			loggerStat = SUPPRESS_STATUS.NOT_SUPPRESS;
+		}
+		return loggerStat;
+	}
 
-    /**
-     * 期待される出力抑止状態か?
-     *
-     * @return 期待される出力抑止状態ならばtrue。それ以外はfalse。
-     */
-    public final boolean isExpectedLogger() {
-        return (this.getExpectStatus() == this.isSuppress());
-    }
+	public SUPPRESS_STATUS getExpectStatus() {
+		return expectStatus;
+	}
+
+	/**
+	 * 期待される出力抑止状態か?
+	 *
+	 * @return 期待される出力抑止状態ならばtrue。それ以外はfalse。
+	 */
+	public final boolean isExpectedLogger() {
+		return (this.getExpectStatus() == this.isSuppress());
+	}
 
 }
