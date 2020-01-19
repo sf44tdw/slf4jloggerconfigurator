@@ -49,11 +49,12 @@ public abstract class SuppressAnnotationTester {
 	 */
 	protected SuppressAnnotationTester(Logger _LOG, SUPPRESS_STATUS expectStatus) {
 		this._LOG = _LOG;
-		this.expectStatus = expectStatus;
 		if (this._LOG == null) {
 			throw new IllegalArgumentException("_LOGがnull。");
 		}
-		if (this._LOG == null) {
+
+		this.expectStatus = expectStatus;
+		if (this.expectStatus == null) {
 			throw new IllegalArgumentException("expectStatusがnull。");
 		}
 
