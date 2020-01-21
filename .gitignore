@@ -23,8 +23,9 @@
 hs_err_pid*
 
 
-/.setteings/
+/.setteings/*
 /target/
 .classpath
 .project
 
+*.prefs
