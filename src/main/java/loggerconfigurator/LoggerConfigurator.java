@@ -43,12 +43,12 @@ public final class LoggerConfigurator {
         try {
             className = new Throwable().getStackTrace()[1].getClassName();
             target_class = Class.forName(className);
-        } catch (ClassNotFoundException ex) {
+        } catch (final ClassNotFoundException ex) {
             LOG.error("呼び出し元が見つかりませんでした。NOPLoggerを返却します。", ex);
             return NOPLogger.NOP_LOGGER;
         }
 
-        SuppressLog issup = target_class.getAnnotation(SuppressLog.class);
+        final SuppressLog issup = target_class.getAnnotation(SuppressLog.class);
         if ((issup != null) && issup.value()) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("ログ出力抑止。クラス = {}", className);
