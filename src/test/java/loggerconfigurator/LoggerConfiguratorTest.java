@@ -5,37 +5,36 @@
  */
 package loggerconfigurator;
 
+import static org.junit.Assert.*;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.slf4j.Logger;
-
-import loggerconfigurator.LoggerConfigurator;
 
 /**
  *
  * @author normal
  */
 public class LoggerConfiguratorTest {
-    
+
     public LoggerConfiguratorTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -50,5 +49,5 @@ public class LoggerConfiguratorTest {
         assertTrue(result!=null);
         result.info("getCallerLogger");
     }
-    
+
 }
