@@ -27,39 +27,71 @@ import org.slf4j.helpers.NOPLogger;
  */
 public final class LoggerConfigurator {
 
-    private static final Logger LOG = LoggerFactory.getLogger(LoggerConfigurator.class);
+	private static final Logger LOG = LoggerFactory.getLogger(LoggerConfigurator.class);
 
-    private LoggerConfigurator() {
-    }
+	/** シングルトンパターンのためのインスタンス. */
+	private static final LoggerConfigurator INSTANCE = new LoggerConfigurator();
 
-    /**
-     * ロガーにクラス名を自動設定する。 クラスにアノテーションが指定されている場合、そのクラスのログは出さない。
-     *
-     * @return このメソッドを呼び出したクラスの名前をセットしたロガー
-     */
-    public final static synchronized Logger getCallerLogger() {
-        final String className;
-        final Class<?> target_class;
-        try {
-            className = new Throwable().getStackTrace()[1].getClassName();
-            target_class = Class.forName(className);
-        } catch (final ClassNotFoundException ex) {
-            LOG.error("呼び出し元が見つかりませんでした。NOPLoggerを返却します。", ex);
-            return NOPLogger.NOP_LOGGER;
-        }
+	private LoggerConfigurator() {
+	}
 
-        final SuppressLog issup = target_class.getAnnotation(SuppressLog.class);
-        if ((issup != null) && issup.value()) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("ログ出力抑止。クラス = {}", className);
-            }
-            return NOPLogger.NOP_LOGGER;
-        } else {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("ログ出力。クラス = {}", className);
-            }
-            return LoggerFactory.getLogger(className);
-        }
-    }
+	/**
+	 * デバッグ用メンバ。
+	 */
+	private String _lastClassName = null;
 
+	/**
+	 * このクラスのインスタンスを取得
+	 *
+	 * @return このクラスのインスタンス
+	 */
+	public static LoggerConfigurator getlnstance() {
+		return INSTANCE;
+	}
+
+	/**
+	 * ロガーにクラス名を自動設定する。
+	 *
+	 * @return クラスにログの出力を抑止するアノテーションがある場合、NOPLoggerを返す。クラスにログの出力を抑止するアノテーションが無い場合、このメソッドを呼び出したクラスの名前をセットしたロガーを返す。クラスの名前が見つからなかった場合、nullを返す。
+	 */
+	public synchronized Logger getCallerLogger() {
+		final String className;
+		final Class<?> target_class;
+
+		try {
+			className = new Throwable().getStackTrace()[1].getClassName();
+			target_class = Class.forName(className);
+		} catch (final ClassNotFoundException ex) {
+			LOG.error("呼び出し元が見つかりませんでした。nullが返ります。", ex);
+			return null;
+		}
+
+		final SuppressLog issup = target_class.getAnnotation(SuppressLog.class);
+		if ((issup != null) && issup.value()) {
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("このクラスはログ出力抑止中です。NOPLoggerを返却します。クラス = {}", className);
+			}
+			return NOPLogger.NOP_LOGGER;
+		}
+
+		if (LOG.isDebugEnabled()) {
+			this._lastClassName = className;
+		} else {
+			this._lastClassName = null;
+		}
+
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("クラス名をセットしたロガーを返却します。クラス = {}", className);
+		}
+		return LoggerFactory.getLogger(className);
+
+	}
+
+	/**
+	 * デバッグ用。
+	 * @return デフォルト値としてnullを返す。ログレベルがデバッグ以下の時、直前にロガーにセットしたクラスがあればその名前を返す。ログレベルがデバッグ以下ではない場合はnullを返す。
+	 */
+	protected synchronized String getLastClassName() {
+		return _lastClassName;
+	}
 }

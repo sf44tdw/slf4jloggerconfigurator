@@ -56,7 +56,7 @@ public class SuppressLogTest {
     private class NotSuppress01 extends SuppressAnnotationTester {
 
         public NotSuppress01() {
-            super(LoggerConfigurator.getCallerLogger(), SUPPRESS_STATUS.NOT_SUPPRESS);
+            super(LoggerConfigurator.getlnstance().getCallerLogger(), SUPPRESS_STATUS.NOT_SUPPRESS);
         }
     }
 
@@ -74,7 +74,7 @@ public class SuppressLogTest {
     private class NotSuppress02 extends SuppressAnnotationTester {
 
         public NotSuppress02() {
-            super(LoggerConfigurator.getCallerLogger(), SUPPRESS_STATUS.NOT_SUPPRESS);
+            super(LoggerConfigurator.getlnstance().getCallerLogger(), SUPPRESS_STATUS.NOT_SUPPRESS);
         }
     }
 
@@ -92,7 +92,7 @@ public class SuppressLogTest {
     private class Suppress01 extends SuppressAnnotationTester {
 
         public Suppress01() {
-            super(LoggerConfigurator.getCallerLogger(), SUPPRESS_STATUS.SUPPRESS);
+            super(LoggerConfigurator.getlnstance().getCallerLogger(), SUPPRESS_STATUS.SUPPRESS);
         }
     }
 
@@ -110,7 +110,7 @@ public class SuppressLogTest {
     private class Suppress02 extends SuppressAnnotationTester {
 
         public Suppress02() {
-            super(LoggerConfigurator.getCallerLogger(), SUPPRESS_STATUS.SUPPRESS);
+            super(LoggerConfigurator.getlnstance().getCallerLogger(), SUPPRESS_STATUS.SUPPRESS);
         }
     }
 

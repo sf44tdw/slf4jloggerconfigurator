@@ -47,8 +47,8 @@ public abstract class SuppressAnnotationTester {
 	 * @param _LOG サブクラスで取得したロガー。サブクラスで取得しないと抑止アノテーションが効かない。
 	 * @param expectStatus 期待される出力抑止状態。
 	 */
-	protected SuppressAnnotationTester(Logger _LOG, SUPPRESS_STATUS expectStatus) {
-		this._LOG = _LOG;
+	protected SuppressAnnotationTester(Logger LOG, SUPPRESS_STATUS expectStatus) {
+		this._LOG = LOG;
 		if (this._LOG == null) {
 			throw new IllegalArgumentException("_LOGがnull。");
 		}

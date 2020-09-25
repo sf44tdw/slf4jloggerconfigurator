@@ -45,8 +45,10 @@ public class LoggerConfiguratorTest {
      */
     @Test
     public void testGetCallerLogger() throws ClassNotFoundException {
-        Logger result = LoggerConfigurator.getCallerLogger();
+    	LoggerConfigurator LC= LoggerConfigurator.getlnstance();
+        Logger result =LC.getCallerLogger();
         assertTrue(result!=null);
+        assertTrue(this.getClass().getName()==LC.getLastClassName());
         result.info("getCallerLogger");
     }
 
