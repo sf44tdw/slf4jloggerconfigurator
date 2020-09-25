@@ -27,8 +27,6 @@ import org.slf4j.helpers.NOPLogger;
  */
 public final class LoggerConfigurator {
 
-
-
 	private static final Logger LOG = LoggerFactory.getLogger(LoggerConfigurator.class);
 
 	/** シングルトンパターンのためのインスタンス. */
@@ -51,27 +49,25 @@ public final class LoggerConfigurator {
 		return INSTANCE;
 	}
 
-	private final class LU_I extends SecurityManager
-	{
-	    public Class<?> getClassObj()
-	    {
-	        return getClassContext()[2];
-	    }
+	private final class ClassNameSeeker extends SecurityManager {
+		public Class<?> getClassObj() {
+			return getClassContext()[2];
+		}
 	}
 
+	private final ClassNameSeeker seeker = new ClassNameSeeker();
 
 	/**
 	 * ロガーにクラス名を自動設定する。
 	 *
-	 * @return クラスにログの出力を抑止するアノテーションがある場合、NOPLoggerを返す。クラスにログの出力を抑止するアノテーションが無い場合、このメソッドを呼び出したクラスの名前をセットしたロガーを返す。クラスの名前が見つからなかった場合、nullを返す。
+	 * @return クラスにログの出力を抑止するアノテーションがある場合、NOPLoggerを返す。クラスにログの出力を抑止するアノテーションが無い場合、このメソッドを呼び出したクラスの名前をセットしたロガーを返す。
 	 */
 	public synchronized Logger getCallerLogger() {
 		final String className;
 		final Class<?> target_class;
 
-			final LU_I sman=new LU_I();
-			target_class = sman.getClassObj();
-			className = target_class.getSimpleName();
+		target_class = this.seeker.getClassObj();
+		className = target_class.getSimpleName();
 
 		final SuppressLog issup = target_class.getAnnotation(SuppressLog.class);
 		if ((issup != null) && issup.value()) {
