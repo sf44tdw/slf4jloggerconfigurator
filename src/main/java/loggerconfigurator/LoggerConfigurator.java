@@ -27,6 +27,8 @@ import org.slf4j.helpers.NOPLogger;
  */
 public final class LoggerConfigurator {
 
+
+
 	private static final Logger LOG = LoggerFactory.getLogger(LoggerConfigurator.class);
 
 	/** シングルトンパターンのためのインスタンス. */
@@ -49,6 +51,15 @@ public final class LoggerConfigurator {
 		return INSTANCE;
 	}
 
+	private final class LU_I extends SecurityManager
+	{
+	    public Class<?> getClassObj()
+	    {
+	        return getClassContext()[2];
+	    }
+	}
+
+
 	/**
 	 * ロガーにクラス名を自動設定する。
 	 *
@@ -58,13 +69,9 @@ public final class LoggerConfigurator {
 		final String className;
 		final Class<?> target_class;
 
-		try {
-			className = new Throwable().getStackTrace()[1].getClassName();
-			target_class = Class.forName(className);
-		} catch (final ClassNotFoundException ex) {
-			LOG.error("呼び出し元が見つかりませんでした。nullが返ります。", ex);
-			return null;
-		}
+			final LU_I sman=new LU_I();
+			target_class = sman.getClassObj();
+			className = target_class.getSimpleName();
 
 		final SuppressLog issup = target_class.getAnnotation(SuppressLog.class);
 		if ((issup != null) && issup.value()) {

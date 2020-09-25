@@ -48,8 +48,13 @@ public class LoggerConfiguratorTest {
     	LoggerConfigurator LC= LoggerConfigurator.getlnstance();
         Logger result =LC.getCallerLogger();
         assertTrue(result!=null);
-        assertTrue(this.getClass().getName()==LC.getLastClassName());
-        result.info("getCallerLogger");
+        final String va;
+        final String vb;
+        va=this.getClass().getSimpleName();
+        vb=LC.getLastClassName();
+        result.info("getCallerLogger this:{} LC:{}",va,vb);
+        assertTrue(va.equals(vb));
+
     }
 
 }
