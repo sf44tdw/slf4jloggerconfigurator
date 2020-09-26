@@ -86,7 +86,7 @@ public final class LoggerConfigurator {
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("クラス名をセットしたロガーを返却します。クラス = {}", className);
 		}
-		return LoggerFactory.getLogger(className);
+		return LoggerFactory.getLogger(target_class);
 
 	}
 
