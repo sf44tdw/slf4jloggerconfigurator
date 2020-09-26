@@ -52,7 +52,7 @@ public class LoggerConfiguratorTest {
         final String vb;
         va=this.getClass().getSimpleName();
         vb=LC.getLastClassName();
-        result.info("getCallerLogger this:{} LC:{}",va,vb);
+        result.info("getCallerLogger ThisClassName:{} LastSetClassName:{}",va,vb);
         assertTrue(va.equals(vb));
 
     }

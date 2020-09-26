@@ -95,6 +95,9 @@ public final class LoggerConfigurator {
 	 * @return デフォルト値としてnullを返す。ログレベルがデバッグ以下の時、直前にロガーにセットしたクラスがあればその名前を返す。ログレベルがデバッグ以下ではない場合はnullを返す。
 	 */
 	protected synchronized String getLastClassName() {
-		return _lastClassName;
+		if (LOG.isDebugEnabled()) {
+			return _lastClassName;
+		}
+		return null;
 	}
 }
