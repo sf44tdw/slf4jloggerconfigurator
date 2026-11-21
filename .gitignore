@@ -30,3 +30,29 @@ hs_err_pid*
 
 *.prefs
 .vscode/settings.json
+
+# idea
+.idea
+
+# Eclipse
+.project
+.classpath
+.settings
+
+# Maven
+target/*
+target/
+target
+surefire-reports/*
+surefire-reports/
+
+# netbeans
+nbproject/*
+nbproject/
+nbproject
+nb-configuration.xml
+nbactions.xml
+
+# vscode
+.vscode/*
+.vscode
