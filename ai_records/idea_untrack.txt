@@ -1,0 +1,2 @@
+依頼: .ideaディレクトリ配下をgit管理外にし、既に管理下なら削除する。
+対応: .gitignoreに既に".idea"あり。git rm -r --cached .idea で.idea/.gitignore, .idea/misc.xmlを管理から削除（ファイルは残置、未コミット）。
