@@ -1,0 +1,6 @@
+依頼: recutilのビルド用に本ライブラリをrpm化(AlmaLinux 8/9/10想定、依存同梱)。
+対応: rpm/slf4jloggerconfigurator.spec と build-rpm.sh を追加。rpmは /usr/share/slf4jloggerconfigurator/maven-repo にfile形式Mavenリポジトリ(本jar/pom + slf4j-api/parent)を配置する。
+利用側(recutil)は pom の <repository> に file:///usr/share/slf4jloggerconfigurator/maven-repo を指定して解決する。
+AlmaLinux10でビルドと、クリーンなローカルリポジトリからの依存解決を確認済み。
+追記: 利用側pom.xmlへの記載事項をREADME.mdに記載した。
+追記: リリース公開時にrpmをビルドして添付する .github/workflows/release-rpm.yml を作成(rpm化ブランチ)。

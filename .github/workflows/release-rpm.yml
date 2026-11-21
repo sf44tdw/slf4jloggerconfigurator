@@ -1,0 +1,36 @@
+name: Build and attach RPM to release
+
+on:
+  release:
+    types: [ published ]
+
+jobs:
+  build-rpm:
+    runs-on: ubuntu-latest
+    container: almalinux:9
+    steps:
+    - name: Install build tools
+      run: dnf -y install rpm-build maven java-17-openjdk-devel git tar gzip
+    - uses: actions/checkout@v4
+    - name: Build RPM
+      run: |
+        git config --global --add safe.directory "$GITHUB_WORKSPACE"
+        ./build-rpm.sh
+    - uses: actions/upload-artifact@v4
+      with:
+        name: rpm
+        path: rpmbuild/RPMS/noarch/*.rpm
+
+  attach:
+    needs: build-rpm
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/download-artifact@v4
+      with:
+        name: rpm
+    - name: Attach RPM to release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: '*.rpm'
