@@ -56,6 +56,3 @@ nbactions.xml
 # vscode
 .vscode/*
 .vscode
-
-# rpm
-/rpmbuild/
